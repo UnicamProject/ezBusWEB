@@ -16,7 +16,7 @@
 
   </head>
 
-<body>
+<body onload="getLocation()">
 
   <nav class="navbar navbar-default" role="navigation">
       <div class="container">
@@ -44,17 +44,17 @@
                       <span>Mappa</span>
                   </li>
   
-                  <li th:replace="::menuItem ('/owners/find','owners','Gestisci le tratte aziendali','search','Pannello Admin')">
+                  <li th:replace="::menuItem ('/admin','admin','Gestisci le tratte aziendali','th-large','Pannello Admin')">
                       <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
                       <span>Pannello Admin</span>
                   </li>
   
-                  <li th:replace="::menuItem ('/vets.html','vets','Personalizza le opzioni della piattaforma','th-list','Impostazioni')">
+                  <li th:replace="::menuItem ('/settings','settings','Personalizza le opzioni della piattaforma','wrench','Impostazioni')">
                       <span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
                       <span>Impostazioni</span>
                   </li>
   
-                  <li th:replace="::menuItem ('/oups','error','Esci dal sistema','warning-sign','Logout')">
+                  <li th:replace="::menuItem ('#','#','Esci dal sistema','log-out','Logout')">
                       <span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span>
                       <span>Logout</span>
                   </li>
