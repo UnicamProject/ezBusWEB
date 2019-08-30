@@ -40,7 +40,7 @@ public class RouteController {
 	  
 	@GetMapping("/routes/{routeId}")
 	public ModelAndView editRoute(@PathVariable("routeId") String routeId) throws IOException {
-		URL url = new URL("https://ezbus-271cc.firebaseio.com/pass.json");
+		URL url = new URL("https://ezbus-271cc.firebaseio.com/routes.json");
 	    URLConnection request = url.openConnection();
 	    request.connect();
 	    JsonParser jp = new JsonParser();
