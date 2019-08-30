@@ -1,0 +1,39 @@
+<html xmlns:th="https://www.thymeleaf.org" th:replace="~{fragments/layout :: layout (~{::body},'admin')}">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta charset="utf-8">
+</head>
+
+<body>
+
+	<div class="container-fluid">
+    	<div class="container xd-container">
+    	
+    		<h2>Gestione Abbonamenti</h2>
+
+    		<table class="table table-striped">
+	        <thead>
+	        <tr>
+	            <th style="width: 150px;">Città</th>
+	            <th style="width: 200px;">Nome</th>
+	            <th style="width: 120px">Prezzo</th>
+	            <th style="width: 120px">Durata</th>
+	        </tr>
+	        </thead>
+	        <tbody>
+	        <tr th:each="pass : ${selections}">
+               <td th:text="${pass.city}"/>
+               <td th:text="${pass.name}"/>
+               <td th:text="${pass.price}"/>
+               <td th:text="${pass.validity}"/>
+            </tr>
+	        </tbody>
+	    	</table>
+	    	
+            <a class="btn btn-default" th:href="@{/passes/new}">Nuovo Abbonamento</a>
+    	</div>
+    </div>
+
+  </body>
+</html>
