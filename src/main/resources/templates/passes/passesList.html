@@ -15,16 +15,16 @@
     		<table class="table table-striped">
 	        <thead>
 	        <tr>
+	            <th>Nome</th>
 	            <th style="width: 150px;">Città</th>
-	            <th style="width: 200px;">Nome</th>
 	            <th style="width: 120px">Prezzo</th>
 	            <th style="width: 120px">Durata</th>
 	        </tr>
 	        </thead>
 	        <tbody>
 	        <tr th:each="pass : ${selections}">
+               <td><a th:href="@{/passes/__${pass.id}__}" th:text="${pass.name}"/></a></td>
                <td th:text="${pass.city}"/>
-               <td th:text="${pass.name}"/>
                <td th:text="${pass.price}"/>
                <td th:text="${pass.validity}"/>
             </tr>

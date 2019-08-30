@@ -2,46 +2,28 @@ package com.unicam.ezbus;
 
 public class Route {
 	
-    private long id;
-    private long idCompany;
-    private String city;
+    private String id;
+    private String idCompany;
     private String name;
-    private double price;
-    private int validity;
+    private String start;
+    private String end;
 	
-    public Route(long id, long idCompany, String city, String name, double price, int validity) {
-		this.id = id;
-		this.idCompany = idCompany;
-		this.city = city;
-		this.name = name;
-		this.price = price;
-		this.validity = validity;
-	}
-    
-    // Getters and Setters ----------------------
-    
-    public long getId() {
+    public Route() {}
+
+	public String getId() {
 		return id;
 	}
 
-	public void setId(long id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 
-	public long getIdCompany() {
+	public String getIdCompany() {
 		return idCompany;
 	}
 
-	public void setIdCompany(long idCompany) {
+	public void setIdCompany(String idCompany) {
 		this.idCompany = idCompany;
-	}
-
-	public String getCity() {
-		return city;
-	}
-
-	public void setCity(String city) {
-		this.city = city;
 	}
 
 	public String getName() {
@@ -52,20 +34,20 @@ public class Route {
 		this.name = name;
 	}
 
-	public double getPrice() {
-		return price;
+	public String getStart() {
+		return start;
 	}
 
-	public void setPrice(double price) {
-		this.price = price;
+	public void setStart(String start) {
+		this.start = start;
 	}
 
-	public int getValidity() {
-		return validity;
+	public String getEnd() {
+		return end;
 	}
 
-	public void setValidity(int validity) {
-		this.validity = validity;
+	public void setEnd(String end) {
+		this.end = end;
 	}
 
 }

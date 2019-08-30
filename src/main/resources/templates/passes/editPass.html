@@ -1,0 +1,39 @@
+<html xmlns:th="https://www.thymeleaf.org" th:replace="~{fragments/layout :: layout (~{::body},'admin')}">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta charset="utf-8">
+</head>
+
+<body>
+
+	<div class="container-fluid">
+    	<div class="container xd-container">
+	
+			<h2>Modifica Abbonamento</h2>
+
+		    <table id="passes" class="table table-striped" th:object="${pass}">
+			    <tr>
+			        <th>Nome</th>
+			        <td><b th:text="*{name}"></b></td>
+			    </tr>
+			    <tr>
+			        <th>Città</th>
+			        <td th:text="*{city}" /></td>
+		        </tr>
+		        <tr>
+			        <th>Prezzo</th>
+			        <td th:text="*{price}" /></td>
+		        </tr>
+		        <tr>
+			        <th>Durata</th>
+			        <td th:text="*{validity}" /></td>
+		        </tr>
+		    </table>
+	
+		</div>
+	</div>
+	
+</body>
+
+</html>

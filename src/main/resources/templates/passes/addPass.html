@@ -5,19 +5,21 @@
     <meta charset="utf-8">
 </head>
 
-
 <body>
 
 	<div class="container-fluid">
     	<div class="container xd-container">
-    	
-    		<h2>Nuovo abbonamento</h2>
-    		<input type="nome" name="" placeholder="Nome"><br><br>
-		    <input type="citta" name="" placeholder="Città"><br><br>
-		    <input type="prezzo" name="" placeholder="Prezzo"><br><br>
-		    <input type="durata" name="" placeholder="Durata"><br><br>
-			<input type="submit" name="" value="Crea"><br><br>
-            <a class="btn btn-default" th:href="@{/passes}">Indietro</a>
+    		
+    		<form method="post" action="/passes/add">
+    			<h2>Nuovo abbonamento</h2>
+	    		<input name="nome" placeholder="Nome"><br><br>
+			    <input name="citta" placeholder="Città"><br><br>
+			    <input name="prezzo" placeholder="Prezzo"><br><br>
+			    <input name="durata" placeholder="Durata"><br><br>
+				<input type="submit" value="Crea"><br><br>
+            </form>
+            
+	        <a class="btn btn-default" th:href="@{/passes}">Indietro</a>
             
     	</div>
     </div>
