@@ -1,0 +1,26 @@
+<html xmlns:th="https://www.thymeleaf.org" th:replace="~{fragments/layout :: layout (~{::body},'admin')}">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta charset="utf-8">
+</head>
+
+
+<body>
+
+	<div class="container-fluid">
+    	<div class="container xd-container">
+    	
+    		<h2>Nuovo abbonamento</h2>
+    		<input type="nome" name="" placeholder="Nome"><br><br>
+		    <input type="citta" name="" placeholder="Città"><br><br>
+		    <input type="prezzo" name="" placeholder="Prezzo"><br><br>
+		    <input type="durata" name="" placeholder="Durata"><br><br>
+			<input type="submit" name="" value="Crea"><br><br>
+            <a class="btn btn-default" th:href="@{/passes}">Indietro</a>
+            
+    	</div>
+    </div>
+
+  </body>
+</html>
