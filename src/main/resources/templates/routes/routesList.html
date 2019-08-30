@@ -24,7 +24,7 @@
 			        <tr th:each="route : ${selections}">
 			            <td><a th:href="@{/routes/__${route.id}__}" th:text="${route.name}"/></a></td>
 			            <td th:text="${route.start}"/>
-			            <td th:text="${route.stop}"/>
+			            <td th:text="${route.end}"/>
 			        </tr>
 		        </tbody>
 		    </table>
