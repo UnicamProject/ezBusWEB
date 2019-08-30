@@ -50,7 +50,7 @@ public class RouteController {
 	    ArrayList<Route> results = new ArrayList<Route>();
 	    for (Entry<String, JsonElement> entry : jsonobj.entrySet())
 	    	results.add(gson.fromJson(entry.getValue(), Route.class));
-        ModelAndView mav = new ModelAndView("routes/routeDetail");
+        ModelAndView mav = new ModelAndView("routes/editRoute");
         for (Route route: results) {
             if (route.getId().equals(routeId)) {
                 mav.addObject(route);
