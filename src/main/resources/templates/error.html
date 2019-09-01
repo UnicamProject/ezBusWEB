@@ -1,0 +1,16 @@
+<html xmlns:th="https://www.thymeleaf.org" th:replace="~{fragments/layout :: layout (~{::body},'error')}">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta charset="utf-8">
+</head>
+
+<body>
+
+    <img src="../static/resources/images/pets.png" th:src="@{/resources/images/pets.png}"/>
+    <h2>Ops! E' successo qualcosa di anomalo...</h2>
+    <p th:text="${message}">Exception message</p>
+    
+</body>
+
+</html>

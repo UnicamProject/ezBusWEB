@@ -1,0 +1,35 @@
+<html xmlns:th="https://www.thymeleaf.org" th:replace="~{fragments/layout :: layout (~{::body},'admin')}">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta charset="utf-8">
+</head>
+
+<body>
+
+	<div class="container-fluid">
+    	<div class="container xd-container">
+	
+			<h2>Modifica Tratta</h2>
+
+		    <table id="routes" class="table table-striped" th:object="${route}">
+			    <tr>
+			        <th>Nome</th>
+			        <td><b th:text="*{name}"></b></td>
+			    </tr>
+			    <tr>
+			        <th>Fermata di partenza</th>
+			        <td th:text="*{start}" /></td>
+		        </tr>
+		        <tr>
+			        <th>Fermata di destinazione</th>
+			        <td th:text="*{end}" /></td>
+		        </tr>
+		    </table>
+	
+		</div>
+	</div>
+	
+</body>
+
+</html>

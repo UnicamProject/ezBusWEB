@@ -1,0 +1,40 @@
+<html xmlns:th="https://www.thymeleaf.org" th:replace="~{fragments/layout :: layout (~{::body},'admin')}">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta charset="utf-8">
+</head>
+
+<body>
+
+	<div class="container-fluid">
+    	<div class="container xd-container">
+	
+			<h2>Gestione Tratte</h2>
+
+		    <table id="routes" class="table table-striped">
+		        <thead>
+			        <tr>
+			            <th>Nome</th>
+			            <th>Fermata di partenza</th>
+			            <th>Fermata di destinazione</th>
+			        </tr>
+		        </thead>
+		        <tbody>
+			        <tr th:each="route : ${selections}">
+			            <td><a th:href="@{/routes/__${route.id}__}" th:text="${route.name}"/></a></td>
+			            <td th:text="${route.start}"/>
+			            <td th:text="${route.end}"/>
+			        </tr>
+		        </tbody>
+		    </table>
+	    	
+            <a class="btn btn-default" th:href="@{/admin}">Nuova Tratta</a>
+	        <a class="btn btn-default" th:href="@{/admin}">Indietro</a>
+	
+		</div>
+	</div>
+	
+</body>
+
+</html>
