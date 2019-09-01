@@ -1,13 +1,29 @@
 package com.unicam.ezbus;
 
-public class Pass {
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
+public class Pass {
+	
+	@NotNull
+	@Size(min=2, max=20)
 	private String city;
-    private String companyId;
-    private String id; 
-    private String name; 
-    private double price;
-    private int validity;
+	@NotNull
+	@Size(min=2, max=40)
+	private String companyId;
+	@NotNull
+	@Size(min=2, max=40)
+	private String id; 
+	@NotNull
+	@Size(min=2, max=20)
+	private String name; 
+	@NotNull
+	@Min(5)
+	private double price;
+	@NotNull
+	@Min(7)
+	private int validity;
     
     public Pass() {}
 	
