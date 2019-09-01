@@ -11,7 +11,7 @@ public class Pass {
 	private String city;
 	@NotNull
 	@Size(min=2, max=40)
-	private String companyId;
+	private String idCompany;
 	@NotNull
 	@Size(min=2, max=40)
 	private String id; 
@@ -35,12 +35,12 @@ public class Pass {
 		this.city = city;
 	}
 	
-	public String getCompanyId() {
-		return companyId;
+	public String getIdCompany() {
+		return idCompany;
 	}
 
-	public void setCompanyId(String companyId) {
-		this.companyId = companyId;
+	public void setIdCompany(String idCompany) {
+		this.idCompany = idCompany;
 	}
 	
 	public String getId() {

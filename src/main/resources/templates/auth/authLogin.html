@@ -1,4 +1,4 @@
-<html xmlns:th="https://www.thymeleaf.org" th:replace="~{fragments/layout :: layout (~{::body},'auth')}">
+<html xmlns:th="https://www.thymeleaf.org" th:replace="~{fragments/authLayout :: layout (~{::body},'auth')}">
 
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
@@ -9,19 +9,12 @@
 
 	<div class="container-fluid">
     	<div class="container xd-container">
-
-			<form action="/admin" method="post">
-				<h2>Login Azienda</h2>
-				<input type="email" name="" placeholder="Email">
-				<input type="password" name="" placeholder="Password">
-				<input type="submit" name="" value="Accedi">
-			</form>
-	
+			<h2>Login Azienda</h2>
+			<input type="email" name="" placeholder="Email" id="email">
+			<input type="password" name="" placeholder="Password" id="password">
+			<input type="submit" name="" value="Accedi" id="btn">
 		</div>
 	</div>
-	   
-	<script src="//firebase/6.4.2/firebase-app.js"></script>
-	<script src="//firebase/init.js"></script>
 
 </body>
 </html>

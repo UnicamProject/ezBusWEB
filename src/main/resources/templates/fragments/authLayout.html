@@ -1,0 +1,125 @@
+<!doctype html>
+<html th:fragment="layout (template, menu)">
+
+  <head>
+
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="shortcut icon" type="image/x-icon" th:href="@{/resources/images/ic_launcher_ezBus-web.png}">
+
+    <title>ezBus</title>
+
+    <link rel="stylesheet" th:href="@{/resources/css/petclinic.css}"/>
+    
+	<script src="https://www.gstatic.com/firebasejs/6.5.0/firebase-app.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/6.4.1/firebase-auth.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/6.4.1/firebase-database.js"></script>
+	<script>
+		var firebaseConfig = {
+		    apiKey: "AIzaSyB5939azRtOYbdMhqcjkb-sZK2BW62rnWM",
+		    authDomain: "ezbus-271cc.firebaseapp.com",
+		    databaseURL: "https://ezbus-271cc.firebaseio.com",
+		    projectId: "ezbus-271cc",
+		    storageBucket: "ezbus-271cc.appspot.com"
+	  	};
+		// Initialize Firebase
+		firebase.initializeApp(firebaseConfig);
+	</script>
+	<script>
+	    window.onload = function() {
+	    	document.getElementById("btn").addEventListener ("click", signIn, false);
+	    }
+	    function signIn() {
+	        if (firebase.auth().currentUser)
+	        	firebase.auth().signOut();
+	        
+			var email = document.getElementById('email').value;
+			var password = document.getElementById('password').value;
+			if (email.length < 4) {
+				alert('Please enter an email address.');
+				return;
+			} else if (password.length < 4) {
+				alert('Please enter a password.');
+				return;
+			}
+			firebase.auth().signInWithEmailAndPassword(email, password).catch(function(error) {
+				var errorCode = error.code;
+				var errorMessage = error.message;
+				if (errorCode === 'auth/wrong-password') {
+					alert('Wrong password.');
+				} else {
+					alert(errorMessage);
+				}
+				console.log(error);
+				document.getElementById('btn').disabled = false;
+			});
+	    }
+	</script>
+
+  </head>
+
+<body>
+
+  <nav class="navbar navbar-default" role="navigation">
+      <div class="container">
+          <div class="navbar-header">
+              <a class="navbar-brand" th:href="@{/}"><span></span></a>
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#main-navbar">
+                  <span class="sr-only"><os-p>Toggle navigation</os-p></span>
+                  <span class="icon-bar"></span>
+                  <span class="icon-bar"></span>
+                  <span class="icon-bar"></span>
+              </button>
+          </div>
+          <div class="navbar-collapse collapse" id="main-navbar">
+              <ul class="nav navbar-nav navbar-right">
+  
+                  <li th:fragment="menuItem (path,active,title,glyph,text)" class="active" th:class="${active==menu ? 'active' : ''}">
+                      <a th:href="@{__${path}__}" th:title="${title}">
+                        <span th:class="'glyphicon  glyphicon-'+${glyph}" class="glyphicon glyphicon-home" aria-hidden="true"></span>
+                        <span th:text="${text}">Template</span>
+                      </a>
+                  </li>
+  
+                  <li th:replace="::menuItem ('/','home','Controlla la mappa','home','Mappa')">
+                      <span class="glyphicon glyphicon-home" aria-hidden="true"></span>
+                      <span>Mappa</span>
+                  </li>
+  
+                  <li th:replace="::menuItem ('/admin','admin','Gestisci le tratte aziendali','th-large','Pannello Admin')">
+                      <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+                      <span>Pannello Admin</span>
+                  </li>
+  
+                  <li th:replace="::menuItem ('/settings','settings','Personalizza le opzioni della piattaforma','wrench','Impostazioni')">
+                      <span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
+                      <span>Impostazioni</span>
+                  </li>
+  
+                  <li th:replace="::menuItem ('/auth','auth','Entra nel sistema','log-in','Login')">
+                      <span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span>
+                      <span>Login</span>
+                  </li>
+  
+              </ul>
+          </div>
+      </div>
+  </nav>
+  <!--<div class="container-fluid">
+      <div class="container xd-container">  -->
+  
+          <th:block th:include="${template}"/>
+
+      <!-- </div>
+  </div> -->
+
+  <script th:src="@{/webjars/jquery/jquery.min.js}"></script>
+  <script th:src="@{/webjars/jquery-ui/jquery-ui.min.js}"></script>
+  <script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+
+</body>
+
+</html>
