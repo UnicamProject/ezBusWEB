@@ -74,5 +74,6 @@ public class Pass {
 	public void setValidity(int validity) {
 		this.validity = validity;
 	}  
+	
 
 }
