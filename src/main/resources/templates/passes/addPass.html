@@ -12,25 +12,39 @@
     		
     		<form method="post" action="#" th:action="@{/passes/add}" th:object="${pass}">
     			<h2>Nuovo abbonamento</h2>
+    			<br>
 	    		<input th:field="*{name}" placeholder="Nome">
-	    		<p th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Errore Nome</p><br><br>
+	    		<p th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Errore Nome</p>
+	    		<br><br>
 			    <input th:field="*{city}" placeholder="Città">
-	    		<p th:if="${#fields.hasErrors('city')}" th:errors="*{city}">Errore Città</p><br><br>
+	    		<p th:if="${#fields.hasErrors('city')}" th:errors="*{city}">Errore Città</p>
+	    		<br><br>
 			    <input th:field="*{price}" placeholder="Prezzo">
-	    		<p th:if="${#fields.hasErrors('price')}" th:errors="*{price}">Errore Prezzo</p><br><br>
+	    		<p th:if="${#fields.hasErrors('price')}" th:errors="*{price}">Errore Prezzo</p>
+	    		<br><br>
 			    <input th:field="*{validity}" placeholder="Durata">
-	    		<p th:if="${#fields.hasErrors('validity')}" th:errors="*{validity}">Errore Durata</p><br><br>
+	    		<p th:if="${#fields.hasErrors('validity')}" th:errors="*{validity}">Errore Durata</p>
+	    		<br><br>
 			    <input th:field="*{id}" placeholder="ID">
-	    		<p th:if="${#fields.hasErrors('id')}" th:errors="*{id}">Errore ID</p><br><br>
+	    		<p th:if="${#fields.hasErrors('id')}" th:errors="*{id}">Errore ID</p>
+	    		<br><br>
 			    <input th:field="*{idCompany}" placeholder="ID Azienda">
-	    		<p th:if="${#fields.hasErrors('idCompany')}" th:errors="*{idCompany}">Errore ID Azienda</p><br><br>
+	    		<p th:if="${#fields.hasErrors('idCompany')}" th:errors="*{idCompany}">Errore ID Azienda</p>
+	    		<br><br><br>
 				<button class="btn btn-default" type="submit" th:text="Crea">Crea</button>
 	        	<a class="btn btn-default" th:href="@{/passes}">Indietro</a>
             </form>
             
-            
     	</div>
     </div>
+    
+	<script>
+	    window.onload = function() {
+	    	if(localStorage.getItem("userId") == null)
+	    		window.location.href = "/auth/authLogin";
+	    }
+	</script>
 
-  </body>
+</body>
+
 </html>

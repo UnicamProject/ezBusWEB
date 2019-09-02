@@ -5,19 +5,19 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 public class Pass {
-	
-	@NotNull
-	@Size(min=2, max=20)
-	private String city;
-	@NotNull
-	@Size(min=2, max=40)
-	private String idCompany;
+
 	@NotNull
 	@Size(min=2, max=40)
 	private String id; 
 	@NotNull
+	@Size(min=2, max=40)
+	private String idCompany;
+	@NotNull
 	@Size(min=2, max=20)
 	private String name; 
+	@NotNull
+	@Size(min=2, max=30)
+	private String city;
 	@NotNull
 	@Min(5)
 	private double price;
@@ -27,12 +27,12 @@ public class Pass {
     
     public Pass() {}
 	
-    public String getCity() {
-		return city;
+	public String getId() {
+		return id;
 	}
 
-	public void setCity(String city) {
-		this.city = city;
+	public void setId(String id) {
+		this.id = id;
 	}
 	
 	public String getIdCompany() {
@@ -43,20 +43,20 @@ public class Pass {
 		this.idCompany = idCompany;
 	}
 	
-	public String getId() {
-		return id;
-	}
-
-	public void setId(String id) {
-		this.id = id;
-	}
-	
 	public String getName() {
 		return name;
 	}
 
 	public void setName(String name) {
 		this.name = name;
+	}
+	
+    public String getCity() {
+		return city;
+	}
+
+	public void setCity(String city) {
+		this.city = city;
 	}
 	
 	public double getPrice() {
