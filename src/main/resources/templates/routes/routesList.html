@@ -10,7 +10,7 @@
 	<div class="container-fluid">
     	<div class="container xd-container">
 	
-			<h2>Gestione Tratte</h2>
+			<h2>Gestione Tratte</h2><br>
 
 		    <table id="routes" class="table table-striped">
 		        <thead>
@@ -29,11 +29,18 @@
 		        </tbody>
 		    </table>
 	    	
-            <a class="btn btn-default" th:href="@{/admin}">Nuova Tratta</a>
+            <a class="btn btn-default" th:href="@{/routes/new}">Nuova Tratta</a>
 	        <a class="btn btn-default" th:href="@{/admin}">Indietro</a>
 	
 		</div>
 	</div>
+	
+	<script>
+	    window.onload = function() {
+	    	if(localStorage.getItem("userId") == null)
+	    		window.location.href = "/auth/authLogin";
+	    }
+	</script>
 	
 </body>
 

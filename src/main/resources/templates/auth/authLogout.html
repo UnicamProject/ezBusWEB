@@ -9,11 +9,9 @@
 
 	<div class="container-fluid">
     	<div class="container xd-container">
-			<h2>Login Azienda</h2>
+			<h2>Logout</h2>
 			<br>
-			<input type="email" name="" placeholder="Email" id="email"><br>
-			<input type="password" name="" placeholder="Password" id="password"><br><br>
-			<input type="submit" name="" value="Accedi" id="login">
+			<input type="submit" name="" value="Disconnetti" id="logout">
 		</div>
 	</div>
 	
@@ -33,31 +31,7 @@
 	</script>
 	<script>
 	    window.onload = function() {
-    		document.getElementById("login").addEventListener("click", signIn, false);
-	    }
-	    
-	    function signIn() {
-			var email = document.getElementById('email').value;
-			var password = document.getElementById('password').value;
-			
-			if (email.length < 4) {
-				alert('Please enter an email address.');
-				return;
-			} else if (password.length < 4) {
-				alert('Please enter a password.');
-				return;
-			}
-			
-			firebase.auth().signInWithEmailAndPassword(email, password).catch(function(error) {
-				var errorCode = error.code;
-				var errorMessage = error.message;
-				if (errorCode === 'auth/wrong-password') {
-					alert('Wrong password.');
-				} else {
-					alert(errorMessage);
-				}
-				console.log(error);
-			});
+    		document.getElementById("logout").addEventListener("click", signOut, false);
 	    }
 	    
 	    function signOut() {
@@ -70,8 +44,8 @@
 				// User logged in already or has just logged in.
 				var id = user.uid;
 				localStorage.setItem("userId", id);
-	    		window.location.href = "/auth/authLogout";
 			} else {
+	    		window.location.href = "/auth/authLogin";
 				// User not logged in or has just logged out.
 			}
 		});

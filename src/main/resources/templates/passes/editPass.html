@@ -10,7 +10,7 @@
 	<div class="container-fluid">
     	<div class="container xd-container">
 	
-			<h2>Modifica Abbonamento</h2>
+			<h2>Modifica Abbonamento</h2><br>
 
 		    <table id="passes" class="table table-striped" th:object="${pass}">
 			    <tr>
@@ -30,9 +30,18 @@
 			        <td th:text="*{validity}" /></td>
 		        </tr>
 		    </table>
+
+	        <a class="btn btn-default" th:href="@{/passes}">Indietro</a>
 	
 		</div>
 	</div>
+	
+	<script>
+	    window.onload = function() {
+	    	if(localStorage.getItem("userId") == null)
+	    		window.location.href = "/auth/authLogin";
+	    }
+	</script>
 	
 </body>
 

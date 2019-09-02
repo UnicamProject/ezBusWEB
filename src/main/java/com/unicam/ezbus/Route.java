@@ -1,11 +1,24 @@
 package com.unicam.ezbus;
 
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
 public class Route {
 	
+	@NotNull
+	@Size(min=2, max=40)
     private String id;
+	@NotNull
+	@Size(min=2, max=40)
     private String idCompany;
+	@NotNull
+	@Size(min=2, max=20)
     private String name;
+	@NotNull
+	@Size(min=2, max=40)
     private String start;
+	@NotNull
+	@Size(min=2, max=40)
     private String end;
 	
     public Route() {}

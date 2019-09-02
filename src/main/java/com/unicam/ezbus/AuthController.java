@@ -6,9 +6,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class AuthController {
 	
-	@GetMapping("/auth")
-    public String homeAuth() {
-        return "auth/authLogin.html";
+	@GetMapping("/auth/authLogin")
+    public String authLogin() {
+        return "auth/authLogin";
+    }
+	
+	@GetMapping("/auth/authLogout")
+    public String authLogout() {
+        return "auth/authLogout";
     }
 	
 }

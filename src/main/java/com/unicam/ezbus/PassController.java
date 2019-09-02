@@ -59,15 +59,36 @@ public class PassController {
 	    model.put("selections", results);
         return "passes/passesList";
     }
+	  
+	@GetMapping("/passes/{passId}")
+	public ModelAndView editPass(@PathVariable("passId") String passId) throws IOException {
+		URL url = new URL("https://ezbus-271cc.firebaseio.com/pass.json");
+	    URLConnection request = url.openConnection();
+	    request.connect();
+	    JsonParser jp = new JsonParser();
+	    JsonElement json = jp.parse(new InputStreamReader((InputStream) request.getContent())); 
+	    JsonObject jsonobj = json.getAsJsonObject();
+		Gson gson = new Gson();
+	    ArrayList<Pass> results = new ArrayList<Pass>();
+	    for (Entry<String, JsonElement> entry : jsonobj.entrySet())
+	    	results.add(gson.fromJson(entry.getValue(), Pass.class));
+		ModelAndView mav = new ModelAndView("passes/editPass");
+		for (Pass pass: results) {
+		    if (pass.getId().equals(passId)) {
+		        mav.addObject(pass);
+		    }
+		}
+		return mav;
+	}
 	
 	@GetMapping("/passes/new")
-	public String newPasses(Model model) {
+	public String newPass(Model model) {
 		model.addAttribute("pass", new Pass());
 		return "passes/addPass";
 	}
 	
 	@PostMapping("/passes/add")
-	public String addPasses(@Valid Pass pass, BindingResult bindingResult, Map<String, Object> model) throws IOException {
+	public String addPass(@Valid Pass pass, BindingResult bindingResult, Map<String, Object> model) throws IOException {
 		if (bindingResult.hasErrors()) return "passes/addPass";
         URL url = new URL("https://ezbus-271cc.firebaseio.com/pass.json");
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
@@ -84,26 +105,5 @@ public class PassController {
         System.err.println(connection.getResponseCode());
 		return updateList(model);
     }
-	  
-	@GetMapping("/passes/{passId}")
-	public ModelAndView editPass(@PathVariable("passId") String passId) throws IOException {
-		URL url = new URL("https://ezbus-271cc.firebaseio.com/pass.json");
-	    URLConnection request = url.openConnection();
-	    request.connect();
-	    JsonParser jp = new JsonParser();
-	    JsonElement json = jp.parse(new InputStreamReader((InputStream) request.getContent())); 
-	    JsonObject jsonobj = json.getAsJsonObject();
-		Gson gson = new Gson();
-	    ArrayList<Pass> results = new ArrayList<Pass>();
-	    for (Entry<String, JsonElement> entry : jsonobj.entrySet())
-	    	results.add(gson.fromJson(entry.getValue(), Pass.class));
-        ModelAndView mav = new ModelAndView("passes/editPass");
-        for (Pass pass: results) {
-            if (pass.getId().equals(passId)) {
-                mav.addObject(pass);
-            }
-        }
-		return mav;
-	}
 
 }
