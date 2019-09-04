@@ -24,12 +24,6 @@
 	    		<br><br>
 			    <input th:field="*{validity}" placeholder="Durata">
 	    		<p th:if="${#fields.hasErrors('validity')}" th:errors="*{validity}">Errore Durata</p>
-	    		<br><br>
-			    <input th:field="*{id}" placeholder="ID">
-	    		<p th:if="${#fields.hasErrors('id')}" th:errors="*{id}">Errore ID</p>
-	    		<br><br>
-			    <input th:field="*{idCompany}" placeholder="ID Azienda">
-	    		<p th:if="${#fields.hasErrors('idCompany')}" th:errors="*{idCompany}">Errore ID Azienda</p>
 	    		<br><br><br>
 				<button class="btn btn-default" type="submit" th:text="Crea">Crea</button>
 	        	<a class="btn btn-default" th:href="@{/passes}">Indietro</a>
@@ -37,13 +31,6 @@
             
     	</div>
     </div>
-    
-	<script>
-	    window.onload = function() {
-	    	if(localStorage.getItem("userId") == null)
-	    		window.location.href = "/auth/authLogin";
-	    }
-	</script>
 
 </body>
 

@@ -31,19 +31,12 @@
 		        </tbody>
 	    	</table>
 	    	
+	    	<br>
             <a class="btn btn-default" th:href="@{/passes/new}">Nuovo Abbonamento</a>
 	        <a class="btn btn-default" th:href="@{/admin}">Indietro</a>
 	        
     	</div>
     </div>
-	
-	<script>
-	    window.onload = function() {
-	    	if(localStorage.getItem("userId") == null)
-	    		window.location.href = "/auth/authLogin";
-	    }
-	</script>
-
 </body>
   
 </html>

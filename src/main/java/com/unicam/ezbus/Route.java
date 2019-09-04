@@ -1,15 +1,13 @@
 package com.unicam.ezbus;
 
+import java.util.UUID;
+
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 public class Route {
 	
-	@NotNull
-	@Size(min=2, max=40)
     private String id;
-	@NotNull
-	@Size(min=2, max=40)
     private String idCompany;
 	@NotNull
 	@Size(min=2, max=20)
@@ -21,14 +19,15 @@ public class Route {
 	@Size(min=2, max=40)
     private String end;
 	
-    public Route() {}
+	
+    public Route() { }
 
 	public String getId() {
 		return id;
 	}
 
-	public void setId(String id) {
-		this.id = id;
+	public void setId() {
+    	this.id = UUID.randomUUID().toString();
 	}
 
 	public String getIdCompany() {

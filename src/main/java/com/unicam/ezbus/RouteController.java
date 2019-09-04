@@ -28,25 +28,9 @@ import com.google.gson.JsonParser;
 
 @Controller
 public class RouteController {
-	  
-	@GetMapping("/routes")
-	public String listRoutes(Map<String, Object> model) throws IOException {
-		URL url = new URL("https://ezbus-271cc.firebaseio.com/routes.json");
-	    URLConnection request = url.openConnection();
-	    request.connect();
-	    JsonParser jp = new JsonParser();
-	    JsonElement json = jp.parse(new InputStreamReader((InputStream) request.getContent())); 
-	    JsonObject jsonobj = json.getAsJsonObject();
-		Gson gson = new Gson();
-	    ArrayList<Route> results = new ArrayList<Route>();
-	    for (Entry<String, JsonElement> entry : jsonobj.entrySet())
-	    	results.add(gson.fromJson(entry.getValue(), Route.class));
-	    model.put("selections", results);
-        return "routes/routesList";
-	}
 	
-	public String updateList(Map<String, Object> model) throws IOException {
-		URL url = new URL("https://ezbus-271cc.firebaseio.com/routes.json");
+	private ArrayList<Route> setConnection() throws IOException {
+		URL url = new URL("https://ezbus-271cc.firebaseio.com/routes.json?orderBy=%22idCompany%22&equalTo=%22"+AuthController.getId()+"%22");
 	    URLConnection request = url.openConnection();
 	    request.connect();
 	    JsonParser jp = new JsonParser();
@@ -56,24 +40,27 @@ public class RouteController {
 	    ArrayList<Route> results = new ArrayList<Route>();
 	    for (Entry<String, JsonElement> entry : jsonobj.entrySet())
 	    	results.add(gson.fromJson(entry.getValue(), Route.class));
-	    model.put("selections", results);
+	    return results;
+	}
+	  
+	@GetMapping("/routes")
+	public String listRoutes(Map<String, Object> model) throws IOException {
+		if (AuthController.getId() == null) return "redirect:/auth";
+	    model.put("selections", setConnection());
+        return "routes/routesList";
+	}
+	
+	public String updateList(Map<String, Object> model) throws IOException {
+		if (AuthController.getId() == null) return "redirect:/auth";
+	    model.put("selections", setConnection());
         return "routes/routesList";
     }
 	  
 	@GetMapping("/routes/{routeId}")
-	public ModelAndView editRoute(@PathVariable("routeId") String routeId) throws IOException {
-		URL url = new URL("https://ezbus-271cc.firebaseio.com/routes.json");
-	    URLConnection request = url.openConnection();
-	    request.connect();
-	    JsonParser jp = new JsonParser();
-	    JsonElement json = jp.parse(new InputStreamReader((InputStream) request.getContent())); 
-	    JsonObject jsonobj = json.getAsJsonObject();
-		Gson gson = new Gson();
-	    ArrayList<Route> results = new ArrayList<Route>();
-	    for (Entry<String, JsonElement> entry : jsonobj.entrySet())
-	    	results.add(gson.fromJson(entry.getValue(), Route.class));
+	public Object editRoute(@PathVariable("routeId") String routeId) throws IOException {
+		if (AuthController.getId() == null) return "redirect:/auth";
         ModelAndView mav = new ModelAndView("routes/editRoute");
-        for (Route route: results) {
+        for (Route route: setConnection()) {
             if (route.getId().equals(routeId)) {
                 mav.addObject(route);
             }
@@ -83,13 +70,17 @@ public class RouteController {
 	
 	@GetMapping("/routes/new")
 	public String newRoute(Model model) {
+		if (AuthController.getId() == null) return "redirect:/auth";
 		model.addAttribute("route", new Route());
 		return "routes/addRoute";
 	}
 	
 	@PostMapping("/routes/add")
 	public String addRoute(@Valid Route route, BindingResult bindingResult, Map<String, Object> model) throws IOException {
-		if (bindingResult.hasErrors()) return "passes/addPass";
+		if (AuthController.getId() == null) return "redirect:/auth";
+		route.setId();
+		route.setIdCompany(AuthController.getId());
+		if (bindingResult.hasErrors()) return "routes/routesList";
         URL url = new URL("https://ezbus-271cc.firebaseio.com/routes.json");
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
         connection.setRequestMethod("POST");

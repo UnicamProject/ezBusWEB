@@ -8,6 +8,7 @@ public class AdminController {
 	
 	@GetMapping("/admin")
     public String homeAdmin() {
+		if (AuthController.getId() == null) return "redirect:/auth";
         return "admin/adminMenu";
     }
 	

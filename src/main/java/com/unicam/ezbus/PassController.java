@@ -3,7 +3,6 @@ package com.unicam.ezbus;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Random;
 
 import javax.validation.Valid;
 import java.io.IOException;
@@ -21,7 +20,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
@@ -29,9 +27,8 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class PassController {
 	
-	@GetMapping("/passes")
-    public String listPasses(Map<String, Object> model) throws IOException {
-		URL url = new URL("https://ezbus-271cc.firebaseio.com/pass.json");
+	private ArrayList<Pass> setConnection() throws IOException {
+		URL url = new URL("https://ezbus-271cc.firebaseio.com/pass.json?orderBy=%22idCompany%22&equalTo=%22"+AuthController.getId()+"%22");
 	    URLConnection request = url.openConnection();
 	    request.connect();
 	    JsonParser jp = new JsonParser();
@@ -41,39 +38,27 @@ public class PassController {
 	    ArrayList<Pass> results = new ArrayList<Pass>();
 	    for (Entry<String, JsonElement> entry : jsonobj.entrySet())
 	    	results.add(gson.fromJson(entry.getValue(), Pass.class));
-	    model.put("selections", results);
+	    return results;
+	}
+	
+	@GetMapping("/passes")
+    public String listPasses(Map<String, Object> model) throws IOException {
+		if (AuthController.getId() == null) return "redirect:/auth";
+	    model.put("selections", setConnection());
         return "passes/passesList";
     }
 	
 	public String updateList(Map<String, Object> model) throws IOException {
-		URL url = new URL("https://ezbus-271cc.firebaseio.com/pass.json");
-	    URLConnection request = url.openConnection();
-	    request.connect();
-	    JsonParser jp = new JsonParser();
-	    JsonElement json = jp.parse(new InputStreamReader((InputStream) request.getContent()));
-	    JsonObject jsonobj = json.getAsJsonObject();
-		Gson gson = new Gson();
-	    ArrayList<Pass> results = new ArrayList<Pass>();
-	    for (Entry<String, JsonElement> entry : jsonobj.entrySet())
-	    	results.add(gson.fromJson(entry.getValue(), Pass.class));
-	    model.put("selections", results);
+		if (AuthController.getId() == null) return "redirect:/auth";
+	    model.put("selections", setConnection());
         return "passes/passesList";
     }
 	  
 	@GetMapping("/passes/{passId}")
-	public ModelAndView editPass(@PathVariable("passId") String passId) throws IOException {
-		URL url = new URL("https://ezbus-271cc.firebaseio.com/pass.json");
-	    URLConnection request = url.openConnection();
-	    request.connect();
-	    JsonParser jp = new JsonParser();
-	    JsonElement json = jp.parse(new InputStreamReader((InputStream) request.getContent())); 
-	    JsonObject jsonobj = json.getAsJsonObject();
-		Gson gson = new Gson();
-	    ArrayList<Pass> results = new ArrayList<Pass>();
-	    for (Entry<String, JsonElement> entry : jsonobj.entrySet())
-	    	results.add(gson.fromJson(entry.getValue(), Pass.class));
+	public Object editPass(@PathVariable("passId") String passId) throws IOException {
+		if (AuthController.getId() == null) return "redirect:/auth";
 		ModelAndView mav = new ModelAndView("passes/editPass");
-		for (Pass pass: results) {
+		for (Pass pass: setConnection()) {
 		    if (pass.getId().equals(passId)) {
 		        mav.addObject(pass);
 		    }
@@ -83,12 +68,16 @@ public class PassController {
 	
 	@GetMapping("/passes/new")
 	public String newPass(Model model) {
+		if (AuthController.getId() == null) return "redirect:/auth";
 		model.addAttribute("pass", new Pass());
 		return "passes/addPass";
 	}
 	
 	@PostMapping("/passes/add")
 	public String addPass(@Valid Pass pass, BindingResult bindingResult, Map<String, Object> model) throws IOException {
+		if (AuthController.getId() == null) return "redirect:/auth";
+		pass.setId();
+		pass.setIdCompany(AuthController.getId());
 		if (bindingResult.hasErrors()) return "passes/addPass";
         URL url = new URL("https://ezbus-271cc.firebaseio.com/pass.json");
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();

@@ -7,13 +7,21 @@
 
 <body>
 
-	<div class="container-fluid">
+	<div class="container-fluid" id="authLogin">
     	<div class="container xd-container">
-			<h2>Login Azienda</h2>
+			<h2>Login</h2>
 			<br>
 			<input type="email" name="" placeholder="Email" id="email"><br>
 			<input type="password" name="" placeholder="Password" id="password"><br><br>
 			<input type="submit" name="" value="Accedi" id="login">
+		</div>
+	</div>
+
+	<div class="container-fluid" id="authLogout">
+    	<div class="container xd-container">
+			<h2>Logout</h2>
+			<br>
+			<input type="submit" name="" value="Disconnetti" id="logout">
 		</div>
 	</div>
 	
@@ -23,17 +31,17 @@
 	<script>
 		var firebaseConfig = {
 		    apiKey: "AIzaSyB5939azRtOYbdMhqcjkb-sZK2BW62rnWM",
-		    authDomain: "ezbus-271cc.firebaseapp.com",
-		    databaseURL: "https://ezbus-271cc.firebaseio.com",
-		    projectId: "ezbus-271cc",
-		    storageBucket: "ezbus-271cc.appspot.com"
+		    authDomain: "ezbus-271cc.firebaseapp.com"
 	  	};
 		// Initialize Firebase
 		firebase.initializeApp(firebaseConfig);
 	</script>
 	<script>
 	    window.onload = function() {
+			document.getElementById("authLogin").style.display = "[[${login}]]";
+			document.getElementById("authLogout").style.display = "[[${logout}]]";
     		document.getElementById("login").addEventListener("click", signIn, false);
+    		document.getElementById("logout").addEventListener("click", signOut, false);
 	    }
 	    
 	    function signIn() {
@@ -51,7 +59,9 @@
 			firebase.auth().signInWithEmailAndPassword(email, password).catch(function(error) {
 				var errorCode = error.code;
 				var errorMessage = error.message;
-				if (errorCode === 'auth/wrong-password') {
+				if (errorCode === 'auth/user-not-found') {
+					alert('Wrong or not existing email.');
+				} else if (errorCode === 'auth/wrong-password'){
 					alert('Wrong password.');
 				} else {
 					alert(errorMessage);
@@ -62,15 +72,28 @@
 	    
 	    function signOut() {
 	    	firebase.auth().signOut();
-	    	localStorage.clear();
+			var id = "/auth/null";
+			var xhttp = new XMLHttpRequest();
+			xhttp.onreadystatechange = function() {
+				if (this.readyState == 4 && this.status == 200) {
+					window.location.href = "/";
+				}
+			};
+			xhttp.open("POST", id, true);
+			xhttp.send();
 	    }
 		
 		firebase.auth().onAuthStateChanged((user) => {
 			if (user) {
 				// User logged in already or has just logged in.
-				var id = user.uid;
-				localStorage.setItem("userId", id);
-	    		window.location.href = "/auth/authLogout";
+				var id = "/auth/"+user.uid;
+				var xhttp = new XMLHttpRequest();
+				xhttp.onreadystatechange = function() {
+					if (this.readyState == 4 && this.status == 200 && "[[${login}]]" == "visible")
+						window.location.href = "/admin";
+				};
+				xhttp.open("POST", id, true);
+				xhttp.send();
 			} else {
 				// User not logged in or has just logged out.
 			}
