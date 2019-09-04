@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 public class AuthController {
 	
 	private static String userId = null;
+	private static String userKey = null;
 	
 	public static String getId() {
 		return userId;
@@ -17,6 +18,14 @@ public class AuthController {
 	
 	public static void setId(String id) {
 		userId = id;
+	}
+
+	public static String getKey() {
+		return userKey;
+	}
+
+	public static void setKey(String userKey) {
+		AuthController.userKey = userKey;
 	}
 	
 	@GetMapping("/auth")
@@ -31,15 +40,17 @@ public class AuthController {
         return "auth/authMenu";
     }
 	
-	@PostMapping("/auth/{userId}") 
-	public String save(@PathVariable("userId") String userId) {
+	@PostMapping("/auth/{userId}/{userKey}") 
+	public String save(@PathVariable("userId") String userId, @PathVariable("userKey") String userKey) {
 		AuthController.setId(userId);
+		AuthController.setKey(userKey);
 		return "/admin/adminMenu";
 	}
 	
 	@PostMapping("/auth/null") 
 	public String delete() {
 		AuthController.setId(null);
+		AuthController.setKey(null);
 		return "/map";
 	}
 	

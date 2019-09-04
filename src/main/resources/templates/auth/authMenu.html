@@ -6,24 +6,6 @@
 </head>
 
 <body>
-
-	<div class="container-fluid" id="authLogin">
-    	<div class="container xd-container">
-			<h2>Login</h2>
-			<br>
-			<input type="email" name="" placeholder="Email" id="email"><br>
-			<input type="password" name="" placeholder="Password" id="password"><br><br>
-			<input type="submit" name="" value="Accedi" id="login">
-		</div>
-	</div>
-
-	<div class="container-fluid" id="authLogout">
-    	<div class="container xd-container">
-			<h2>Logout</h2>
-			<br>
-			<input type="submit" name="" value="Disconnetti" id="logout">
-		</div>
-	</div>
 	
 	<script src="https://www.gstatic.com/firebasejs/6.5.0/firebase-app.js"></script>
 	<script src="https://www.gstatic.com/firebasejs/6.4.1/firebase-auth.js"></script>
@@ -84,21 +66,43 @@
 	    }
 		
 		firebase.auth().onAuthStateChanged((user) => {
-			if (user) {
+			if (user && "[[${login}]]" == "visible") {
 				// User logged in already or has just logged in.
-				var id = "/auth/"+user.uid;
-				var xhttp = new XMLHttpRequest();
-				xhttp.onreadystatechange = function() {
-					if (this.readyState == 4 && this.status == 200 && "[[${login}]]" == "visible")
-						window.location.href = "/admin";
-				};
-				xhttp.open("POST", id, true);
-				xhttp.send();
+				firebase.auth().currentUser.getIdToken(true).then(function(idToken) {
+					var id = "/auth/"+user.uid+"/"+idToken;
+					var xhttp = new XMLHttpRequest();
+					xhttp.onreadystatechange = function() {
+						if (this.readyState == 4 && this.status == 200)
+							window.location.href = "/admin";
+					};
+					xhttp.open("POST", id, true);
+					xhttp.send();
+				}).catch(function(error) {
+				  // Handle error
+				});
 			} else {
 				// User not logged in or has just logged out.
 			}
 		});
 	</script>
+
+	<div class="container-fluid" id="authLogin">
+    	<div class="container xd-container">
+			<h2>Login</h2>
+			<br>
+			<input type="email" name="" placeholder="Email" id="email"><br>
+			<input type="password" name="" placeholder="Password" id="password"><br><br>
+			<input type="submit" name="" value="Accedi" id="login">
+		</div>
+	</div>
+
+	<div class="container-fluid" id="authLogout">
+    	<div class="container xd-container">
+			<h2>Logout</h2>
+			<br>
+			<input type="submit" name="" value="Disconnetti" id="logout">
+		</div>
+	</div>
 
 </body>
 

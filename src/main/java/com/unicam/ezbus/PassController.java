@@ -28,7 +28,10 @@ import org.springframework.web.servlet.ModelAndView;
 public class PassController {
 	
 	private ArrayList<Pass> setConnection() throws IOException {
-		URL url = new URL("https://ezbus-271cc.firebaseio.com/pass.json?orderBy=%22idCompany%22&equalTo=%22"+AuthController.getId()+"%22");
+		URL url = new URL("https://ezbus-271cc.firebaseio.com/pass.json?auth="
+					     +AuthController.getKey()
+					     +"&orderBy=%22idCompany%22&equalTo=%22"
+					     +AuthController.getId()+"%22");
 	    URLConnection request = url.openConnection();
 	    request.connect();
 	    JsonParser jp = new JsonParser();
@@ -76,10 +79,11 @@ public class PassController {
 	@PostMapping("/passes/add")
 	public String addPass(@Valid Pass pass, BindingResult bindingResult, Map<String, Object> model) throws IOException {
 		if (AuthController.getId() == null) return "redirect:/auth";
+		if (bindingResult.hasErrors()) return "passes/addPass";
 		pass.setId();
 		pass.setIdCompany(AuthController.getId());
-		if (bindingResult.hasErrors()) return "passes/addPass";
-        URL url = new URL("https://ezbus-271cc.firebaseio.com/pass.json");
+        URL url = new URL("https://ezbus-271cc.firebaseio.com/pass.json?auth="
+        				 +AuthController.getKey());
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
         connection.setRequestMethod("POST");
         connection.setDoOutput(true);

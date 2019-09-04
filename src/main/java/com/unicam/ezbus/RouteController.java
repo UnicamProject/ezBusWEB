@@ -30,7 +30,10 @@ import com.google.gson.JsonParser;
 public class RouteController {
 	
 	private ArrayList<Route> setConnection() throws IOException {
-		URL url = new URL("https://ezbus-271cc.firebaseio.com/routes.json?orderBy=%22idCompany%22&equalTo=%22"+AuthController.getId()+"%22");
+		URL url = new URL("https://ezbus-271cc.firebaseio.com/routes.json?auth="
+					     +AuthController.getKey()
+					     +"&orderBy=%22idCompany%22&equalTo=%22"
+					     +AuthController.getId()+"%22");
 	    URLConnection request = url.openConnection();
 	    request.connect();
 	    JsonParser jp = new JsonParser();
@@ -78,10 +81,11 @@ public class RouteController {
 	@PostMapping("/routes/add")
 	public String addRoute(@Valid Route route, BindingResult bindingResult, Map<String, Object> model) throws IOException {
 		if (AuthController.getId() == null) return "redirect:/auth";
+		if (bindingResult.hasErrors()) return "routes/addRoute";
 		route.setId();
 		route.setIdCompany(AuthController.getId());
-		if (bindingResult.hasErrors()) return "routes/routesList";
-        URL url = new URL("https://ezbus-271cc.firebaseio.com/routes.json");
+        URL url = new URL("https://ezbus-271cc.firebaseio.com/routes.json?auth="
+				 +AuthController.getKey());
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
         connection.setRequestMethod("POST");
         connection.setDoOutput(true);
