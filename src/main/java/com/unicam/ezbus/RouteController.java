@@ -94,7 +94,7 @@ public class RouteController {
         OutputStreamWriter osw = new OutputStreamWriter(connection.getOutputStream());
         
         Gson gson = new Gson();
-        JsonElement element = gson.toJsonTree(route, Pass.class);
+        JsonElement element = gson.toJsonTree(route, Route.class);
         JsonObject object = new JsonObject();
         object.add(route.getId(), element);
         String json = gson.toJson(route);
