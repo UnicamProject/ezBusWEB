@@ -13,6 +13,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -82,16 +83,21 @@ public class PassController {
 		if (bindingResult.hasErrors()) return "passes/addPass";
 		pass.setId();
 		pass.setIdCompany(AuthController.getId());
-        URL url = new URL("https://ezbus-271cc.firebaseio.com/pass.json?auth="
+        URL url = new URL("https://ezbus-271cc.firebaseio.com/pass/"+pass.getId()+".json?auth="
         				 +AuthController.getKey());
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-        connection.setRequestMethod("POST");
+        connection.setRequestMethod("PUT");
         connection.setDoOutput(true);
         connection.setRequestProperty("Content-Type", "application/json");
         connection.setRequestProperty("Accept", "application/json");
         OutputStreamWriter osw = new OutputStreamWriter(connection.getOutputStream());
+        
         Gson gson = new Gson();
+        JsonElement element = gson.toJsonTree(pass, Pass.class);
+        JsonObject object = new JsonObject();
+        object.add(pass.getId(), element);
         String json = gson.toJson(pass);
+        
         osw.write(json);
         osw.flush();
         osw.close();

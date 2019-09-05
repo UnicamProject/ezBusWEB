@@ -84,7 +84,7 @@ public class RouteController {
 		if (bindingResult.hasErrors()) return "routes/addRoute";
 		route.setId();
 		route.setIdCompany(AuthController.getId());
-        URL url = new URL("https://ezbus-271cc.firebaseio.com/routes.json?auth="
+        URL url = new URL("https://ezbus-271cc.firebaseio.com/routes/"+route.getId()+".json?auth="
 				 +AuthController.getKey());
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
         connection.setRequestMethod("POST");
@@ -92,8 +92,13 @@ public class RouteController {
         connection.setRequestProperty("Content-Type", "application/json");
         connection.setRequestProperty("Accept", "application/json");
         OutputStreamWriter osw = new OutputStreamWriter(connection.getOutputStream());
+        
         Gson gson = new Gson();
+        JsonElement element = gson.toJsonTree(route, Pass.class);
+        JsonObject object = new JsonObject();
+        object.add(route.getId(), element);
         String json = gson.toJson(route);
+        
         osw.write(json);
         osw.flush();
         osw.close();
