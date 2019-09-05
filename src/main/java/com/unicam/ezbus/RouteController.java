@@ -87,7 +87,7 @@ public class RouteController {
         URL url = new URL("https://ezbus-271cc.firebaseio.com/routes/"+route.getId()+".json?auth="
 				 +AuthController.getKey());
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-        connection.setRequestMethod("POST");
+        connection.setRequestMethod("PUT");
         connection.setDoOutput(true);
         connection.setRequestProperty("Content-Type", "application/json");
         connection.setRequestProperty("Accept", "application/json");
