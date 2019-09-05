@@ -23,7 +23,7 @@
 		        </thead>
 		        <tbody>
 			        <tr th:each="pass : ${selections}">
-						<td><a th:href="@{/passes/__${pass.id}__}" th:text="${pass.name}"/></a></td>
+						<td><b><a th:href="@{/passes/__${pass.id}__}" th:text="${pass.name}"/></a></b></td>
 						<td th:text="${pass.city}"/>
 						<td th:text="${pass.price}"/>
 						<td th:text="${pass.validity}"/>
