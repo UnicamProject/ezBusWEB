@@ -40,6 +40,11 @@ public class AuthController {
         return "auth/authMenu";
     }
 	
+	@GetMapping("/register")
+    public String authRegister() {
+        return "auth/registerMenu";
+    }
+	
 	@PostMapping("/auth/{userId}/{userKey}") 
 	public String save(@PathVariable("userId") String userId, @PathVariable("userKey") String userKey) {
 		AuthController.setId(userId);
