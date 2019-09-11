@@ -18,44 +18,27 @@
 		// Initialize Firebase
 		firebase.initializeApp(firebaseConfig);
 	</script>
-	<script>
-	    window.onload = function() {
-    		document.getElementById("register").addEventListener("click", register, false);
-	    }
-	    
-	   		    
-	    function register() {
-	    	var name = document.getElementById('name').value;
-			var iva = document.getElementById('iva').value;
-	    	var email = document.getElementById('email').value;
-			var password = document.getElementById('password').value;
-			if (name.length == 0) {
-				alert('Please insert your company name.')
-			}
-			else if (iva.length !=10) {
-				alert('VAT number must be a 10-digit number.')
-			}
-			else if (email.length < 4) {
-				alert('Please enter an email address.');
-				return;
-			} else if (password.length < 9) {
-				alert('Please enter a password.');
-				return;
-			}
-	    }
-	 }
-		
-			</script>
-
+	
 	<div class="container-fluid" id="authRegister">
     	<div class="container xd-container">
+    	<form method="post" action="#" th:action="@{/auth/registerMenu/add}" th:object="${company}">
 			<h2>Registrazione</h2>
 			<br>
-			<input type="text" name="" placeholder="Nome Azienda" id="name"><br>
-			<input type="number" name="" placeholder="Partita IVA" id="iva"><br>
-			<input type="email" name="" placeholder="Email" id="email"><br>
-			<input type="password" name="" placeholder="Password" id="password"><br><br>
-			<input type="submit" name="" value="Registrati" id="register"><br> <br>
+			<input th:field="*{name}" placeholder="Nome Azienda">
+			<p th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Il nome non è corretto.</p>
+			<br>
+			<input th:field="*{iva}" placeholder="Partita IVA">
+			<p th:if="${#fields.hasErrors('iva')}" th:errors="*{iva}">La partita IVA deve essere lunga esattamente 11 cifre.</p>
+			<br>
+			<input th:field="*{email}" placeholder="Email">
+			<p th:if="${#fields.hasErrors('email')}" th:errors="*{email}">L'E-mail non è corretta.</p>
+			<br>
+			<input th:field="*{password}" placeholder="Password">
+			<p th:if="${#fields.hasErrors('password')}" th:errors="*{password}">La password deve essere lunga almeno 8 caratteri.</p>
+			<br><br>
+			<button type="submit" class="btn btn-default" th:text="Registrati">Registrati</button>
+			<a class="btn btn-default" th:href="@{/auth}">Indietro</a>
+		</form>
 		</div>
 	</div>
 </body>
