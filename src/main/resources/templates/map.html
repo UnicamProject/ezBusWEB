@@ -12,7 +12,17 @@
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB5939azRtOYbdMhqcjkb-sZK2BW62rnWM"
     async defer></script>
     
-    <script>
+    <script th:inline="javascript">
+		/*<![CDATA[*/
+			/*[# th:each="stop : ${stops}"]*/
+			
+			var makerStop = [[${stop.name}]];
+
+			/*[/]*/
+		/*]]>*/
+	</script>
+    
+    <script type="text/javascript" th:inline="javascript">
 		function getLocation() {
 		  if (navigator.geolocation) {
 		    navigator.geolocation.getCurrentPosition(showPosition);
@@ -26,11 +36,37 @@
 		}
 	
 	    var map;
+    
 	    function initMap(x, y) {
-	      map = new google.maps.Map(document.getElementById('map'), {
-	        center: {lat: x, lng: y},
-	        zoom: 15
-	      });
+			map = new google.maps.Map(document.getElementById('map'), {
+			  center: {lat: x, lng: y},
+			  zoom: 12
+			});
+			
+			var infowindow = new google.maps.InfoWindow(); 
+			var marker;
+			var i=0;
+          
+	  		/*<![CDATA[*/
+	  			/*[# th:each="stop : ${stops}"]*/
+	  			
+	  			marker = new google.maps.Marker({
+                  position: new google.maps.LatLng([[${stop.position.coordX}]], [[${stop.position.coordY}]]),
+                  map: map
+              	});
+	  		
+	  			google.maps.event.addListener(marker, 'click', (function(marker, i) {
+                    return function() {
+                        infowindow.setContent([[${stop.name}]]);
+                        infowindow.open(map, marker);
+                    }
+                })(marker, i));
+	  			
+	  			i=i+1;
+	
+	  			/*[/]*/
+	  		/*]]>*/
+              
 	    }
 	</script>
 

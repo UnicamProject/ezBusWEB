@@ -45,6 +45,12 @@ public class RouteController {
 	    	results.add(gson.fromJson(entry.getValue(), Route.class));
 	    return results;
 	}
+	
+	public String updateList(Map<String, Object> model) throws IOException {
+		if (AuthController.getId() == null) return "redirect:/auth";
+	    model.put("selections", setConnection());
+        return "routes/routesList";
+    }
 	  
 	@GetMapping("/routes")
 	public String listRoutes(Map<String, Object> model) throws IOException {
@@ -52,12 +58,6 @@ public class RouteController {
 	    model.put("selections", setConnection());
         return "routes/routesList";
 	}
-	
-	public String updateList(Map<String, Object> model) throws IOException {
-		if (AuthController.getId() == null) return "redirect:/auth";
-	    model.put("selections", setConnection());
-        return "routes/routesList";
-    }
 	  
 	@GetMapping("/routes/{routeId}")
 	public Object editRoute(@PathVariable("routeId") String routeId) throws IOException {
