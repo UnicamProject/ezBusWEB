@@ -9,7 +9,6 @@
 
 	<div class="container-fluid">
     	<div class="container xd-container">
-    		
     		<form method="post" action="#" th:action="@{/routes/add}" th:object="${route}">
     			<h2>Nuova tratta</h2>
     			<br>
@@ -22,10 +21,9 @@
 			    <input th:field="*{end}" placeholder="Destinazione">
 	    		<p th:if="${#fields.hasErrors('end')}" th:errors="*{end}">Errore Destinazione</p>
 	    		<br><br><br>
-				<button class="btn btn-default" type="submit" th:text="Crea">Crea</button>
+				<button class="btn btn-default" type="submit">Crea</button>
 	        	<a class="btn btn-default" th:href="@{/routes}">Indietro</a>
             </form>
-            
     	</div>
     </div>
 	

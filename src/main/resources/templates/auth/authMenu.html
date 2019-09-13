@@ -27,28 +27,28 @@
 	    }
 	    
 	    function signIn() {
-			var email = document.getElementById('email').value;
-			var password = document.getElementById('password').value;
+			var email = document.getElementById("email").value;
+			var password = document.getElementById("password").value;
 			
 			if (email.length < 4) {
-				alert('Please enter an email address.');
+				alert("Please enter an email address.");
 				return;
-			} else if (password.length < 4) {
-				alert('Please enter a password.');
+			} else if (password.length < 8) {
+				alert("Please enter a password.");
 				return;
 			}
 			
 			firebase.auth().signInWithEmailAndPassword(email, password).catch(function(error) {
 				var errorCode = error.code;
 				var errorMessage = error.message;
-				if (errorCode === 'auth/user-not-found') {
-					alert('Wrong or not existing email.');
-				} else if (errorCode === 'auth/wrong-password'){
-					alert('Wrong password.');
+				if (errorCode === "auth/user-not-found") {
+					alert("Wrong or not existing email.");
+				} else if (errorCode === "auth/wrong-password"){
+					alert("Wrong password.");
 				} else {
 					alert(errorMessage);
 				}
-				console.log(error);
+				console.log("Error code " + errorCode + " - " + errorMessage);
 			});
 	    }
 	    
@@ -78,7 +78,7 @@
 					xhttp.open("POST", id, true);
 					xhttp.send();
 				}).catch(function(error) {
-				  // Handle error
+				    // Handle error
 				});
 			} else {
 				// User not logged in or has just logged out.
@@ -88,21 +88,22 @@
 
 	<div class="container-fluid" id="authLogin">
     	<div class="container xd-container">
-			<h2>Login</h2>
-			<br>
-			<input type="email" name="" placeholder="Email" id="email"><br>
-			<input type="password" name="" placeholder="Password" id="password"><br><br>
-			<input type="submit" name="" value="Accedi" id="login"><br> <br>
-			<p>Non possiedi un account?</p>
-			 <input type="submit" name="" value="Registrati" id="register" onClick="window.location.href = '/register'">
+			<h2>Login</h2><br>
+			<input type="email" placeholder="Email" id="email">
+			<br><br>
+			<input type="password" placeholder="Password" id="password">
+			<br><br>
+			<input class="btn btn-default" type="submit" value="Accedi" id="login">
+			<br><br><br>
+			<h3>Non possiedi un account?</h3> 
+			<a class="btn btn-default" th:href="@{/auth/register}">Registrati</a>
 		</div>
 	</div>
 
 	<div class="container-fluid" id="authLogout">
     	<div class="container xd-container">
-			<h2>Logout</h2>
-			<br>
-			<input type="submit" name="" value="Disconnetti" id="logout">
+			<h2>Logout</h2><br>
+			<a class="btn btn-default" id="logout">Disconnettiti</a>
 		</div>
 	</div>
 

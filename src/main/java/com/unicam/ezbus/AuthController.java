@@ -4,13 +4,9 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.Map;
-
-import javax.validation.Valid;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -29,7 +25,7 @@ public class AuthController {
 		return userId;
 	}
 	
-	public static void setId(String id) {
+	private static void setId(String id) {
 		userId = id;
 	}
 
@@ -37,7 +33,7 @@ public class AuthController {
 		return userKey;
 	}
 
-	public static void setKey(String userKey) {
+	private static void setKey(String userKey) {
 		AuthController.userKey = userKey;
 	}
 	
@@ -50,13 +46,14 @@ public class AuthController {
 			map.addAttribute("login", "visible");
 			map.addAttribute("logout", "none");
 		}
-        return "auth/authMenu";
+        return "/auth/authMenu";
     }
 	
-	@GetMapping("/register")
-    public String authRegister() {
-        return "auth/registerMenu";
-    }
+	@GetMapping("/auth/register")
+	public String register() {
+		if (AuthController.getId() != null) return "redirect:/auth";
+		return "/auth/registerMenu";
+	}
 	
 	@PostMapping("/auth/{userId}/{userKey}") 
 	public String login(@PathVariable("userId") String userId, @PathVariable("userKey") String userKey) {
@@ -71,12 +68,12 @@ public class AuthController {
 		AuthController.setKey(null);
 		return "/map";
 	}
-	@PostMapping("/auth/registerMenu/add")
-	public String register(@Valid Company company, BindingResult bindingResult, Map<String, Object> model) throws IOException {
-		if (AuthController.getId() != null) return "redirect:/auth";
-		if (bindingResult.hasErrors()) return "/auth/registerMenu";
-		company.setId();
-		URL url = new URL("https://ezbus-271cc.firebaseio.com/companies/"+company.getId()+".json");
+	
+	@PostMapping("auth/register/{uid}/{name}/{iva}/{email}")
+	public String register(@PathVariable("uid") String uid, @PathVariable("name") String name, 
+						   @PathVariable("iva") String iva, @PathVariable("email") String email) throws IOException {
+		Company company = new Company(uid, name, iva, email);
+        URL url = new URL("https://ezbus-271cc.firebaseio.com/companies/"+uid+".json?");
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
         connection.setRequestMethod("PUT");
         connection.setDoOutput(true);
@@ -94,8 +91,7 @@ public class AuthController {
         osw.flush();
         osw.close();
         System.err.println(connection.getResponseCode());
-        return "redirect:/auth";
-}
+        return "/auth/registerMenu";
+	}
 
-	
 }
