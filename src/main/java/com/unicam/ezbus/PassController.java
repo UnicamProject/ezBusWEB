@@ -27,7 +27,7 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class PassController {
 	
-	private ArrayList<Pass> setConnection() throws IOException {
+	private ArrayList<Pass> getList() throws IOException {
 		URL url = new URL("https://ezbus-271cc.firebaseio.com/pass.json?auth="
 					     +AuthController.getKey()
 					     +"&orderBy=%22idCompany%22&equalTo=%22"
@@ -47,13 +47,7 @@ public class PassController {
 	@GetMapping("/passes")
     public String listPasses(Map<String, Object> model) throws IOException {
 		if (AuthController.getId() == null) return "redirect:/auth";
-	    model.put("selections", setConnection());
-        return "passes/passesList";
-    }
-	
-	public String updateList(Map<String, Object> model) throws IOException {
-		if (AuthController.getId() == null) return "redirect:/auth";
-	    model.put("selections", setConnection());
+	    model.put("selections", getList());
         return "passes/passesList";
     }
 	  
@@ -61,7 +55,7 @@ public class PassController {
 	public Object editPass(@PathVariable("passId") String passId) throws IOException {
 		if (AuthController.getId() == null) return "redirect:/auth";
 		ModelAndView mav = new ModelAndView("passes/editPass");
-		for (Pass pass: setConnection()) {
+		for (Pass pass: getList()) {
 		    if (pass.getId().equals(passId)) {
 		        mav.addObject(pass);
 		    }
@@ -82,8 +76,10 @@ public class PassController {
 		if (bindingResult.hasErrors()) return "passes/addPass";
 		pass.setId();
 		pass.setIdCompany(AuthController.getId());
-        URL url = new URL("https://ezbus-271cc.firebaseio.com/pass/"+pass.getId()+".json?auth="
-        				 +AuthController.getKey());
+        URL url = new URL("https://ezbus-271cc.firebaseio.com/pass/"
+        				  +pass.getId()
+        				  +".json?auth="
+        				  +AuthController.getKey());
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
         connection.setRequestMethod("PUT");
         connection.setDoOutput(true);
@@ -101,7 +97,7 @@ public class PassController {
         osw.flush();
         osw.close();
         System.err.println(connection.getResponseCode());
-		return updateList(model);
+		return "redirect:/passes";
     }
 
 }

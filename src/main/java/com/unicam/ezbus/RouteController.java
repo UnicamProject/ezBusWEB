@@ -29,7 +29,7 @@ import com.google.gson.JsonParser;
 @Controller
 public class RouteController {
 	
-	private ArrayList<Route> setConnection() throws IOException {
+	private ArrayList<Route> getList() throws IOException {
 		URL url = new URL("https://ezbus-271cc.firebaseio.com/routes.json?auth="
 					     +AuthController.getKey()
 					     +"&orderBy=%22idCompany%22&equalTo=%22"
@@ -45,17 +45,11 @@ public class RouteController {
 	    	results.add(gson.fromJson(entry.getValue(), Route.class));
 	    return results;
 	}
-	
-	public String updateList(Map<String, Object> model) throws IOException {
-		if (AuthController.getId() == null) return "redirect:/auth";
-	    model.put("selections", setConnection());
-        return "routes/routesList";
-    }
 	  
 	@GetMapping("/routes")
 	public String listRoutes(Map<String, Object> model) throws IOException {
 		if (AuthController.getId() == null) return "redirect:/auth";
-	    model.put("selections", setConnection());
+	    model.put("selections", getList());
         return "routes/routesList";
 	}
 	  
@@ -63,7 +57,7 @@ public class RouteController {
 	public Object editRoute(@PathVariable("routeId") String routeId) throws IOException {
 		if (AuthController.getId() == null) return "redirect:/auth";
         ModelAndView mav = new ModelAndView("routes/editRoute");
-        for (Route route: setConnection()) {
+        for (Route route: getList()) {
             if (route.getId().equals(routeId)) {
                 mav.addObject(route);
             }
@@ -84,8 +78,10 @@ public class RouteController {
 		if (bindingResult.hasErrors()) return "routes/addRoute";
 		route.setId();
 		route.setIdCompany(AuthController.getId());
-        URL url = new URL("https://ezbus-271cc.firebaseio.com/routes/"+route.getId()+".json?auth="
-				 +AuthController.getKey());
+        URL url = new URL("https://ezbus-271cc.firebaseio.com/routes/"
+        				  +route.getId()
+        				  +".json?auth="
+				 		  +AuthController.getKey());
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
         connection.setRequestMethod("PUT");
         connection.setDoOutput(true);
@@ -103,7 +99,7 @@ public class RouteController {
         osw.flush();
         osw.close();
         System.err.println(connection.getResponseCode());
-		return updateList(model);
+		return "redirect:/routes";
     }
 
 }
